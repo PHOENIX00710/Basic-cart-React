@@ -1,72 +1,37 @@
 import React from "react";
 
 class CartItem extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            name: "Shoes",
-            price: 1000,
-            quantity: 1,
-            imgUrl: "",
-            minusUrl: "https://cdn-icons-png.flaticon.com/512/659/659892.png",
-            plusUrl: "https://w7.pngwing.com/pngs/68/239/png-transparent-number-computer-icons-plus-miscellaneous-game-plus.png",
-            delUrl: "https://cdn-icons-png.flaticon.com/512/1345/1345874.png",
-        }
-        this.increaseCount=this.increaseCount.bind(this);
-    };
-    //Using Hard-Binding and by passing objects in setState
-    increaseCount(){
-        this.setState({
-            quantity:this.state.quantity+1,
-        })
-    }
-
-    //Using arrow functions and passing callBack Functions
-    decreaseCount=()=>{
-        // To chech for 0
-        const {quantity}=this.state;
-        if(quantity == 0)
-            return;
-        this.setState((prevState)=>{
-            return{
-                quantity:prevState.quantity-1,
-            }
-        })
-    }
-
-    deleteItem=()=>{
-        console.log(this.state);
-    }
-
     render() {
-        const { name, price, quantity, imgUrl } = this.state;
+        const { name, price, quantity, imgUrl } = this.props.product;
+        const {product,increaseQuantity,decreaseQuantity,deleteItem}=this.props;
+        
         return (
-            <div className="cart-item">
+             <div className="cart-item">
                 <div className="left-block">
-                    <img style={style.image} />
+                    <img style={style.image} alt="product image" src={imgUrl}/>
                 </div>
                 <div className="right-block">
-                    <div>{this.state.name}</div>
-                    <div>{this.state.price}</div>
-                    <div>{this.state.quantity}</div>
+                    <div>{name}</div>
+                    <div>{price}</div>
+                    <div>{quantity}</div>
                     <div className="cart-item-actions">
                         <img
                             alt="decreaseCount"
                             className="action-icons"
-                            src={this.state.plusUrl}
-                            onClick={this.increaseCount}
+                            src="https://w7.pngwing.com/pngs/68/239/png-transparent-number-computer-icons-plus-miscellaneous-game-plus.png"
+                            onClick={()=>increaseQuantity(product)}
                         />
                         <img
                             alt="increaseCount"
                             className="action-icons"
-                            src={this.state.minusUrl}
-                            onClick={this.decreaseCount}
+                            src="https://cdn-icons-png.flaticon.com/512/659/659892.png"
+                            onClick={()=>decreaseQuantity(product)}
                         />
                         <img
                             alt="deleteItem"
                             className="action-icons"
-                            src={this.state.delUrl}
-                            onClick={this.deleteItem}
+                            src="https://cdn-icons-png.flaticon.com/512/1345/1345874.png"
+                            onClick={()=>deleteItem(product)} // Not this.deleteItem as it is not a function of this class but a variable whose values has already been destructed above
                         />
                     </div>
                 </div>
